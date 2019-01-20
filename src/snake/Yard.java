@@ -8,18 +8,20 @@ import java.awt.event.WindowEvent;
 
 public class Yard extends Frame {
 	
-	private static final int ROWS =  50;//橫的格子
-	private static final int COLS = 50;//縱的格子
-	private static final int BLOCK_SIZE = 15;//每格的寬高
+	public static final int ROWS =  50;//橫的格子
+	public static final int COLS = 50;//縱的格子
+	public static final int BLOCK_SIZE = 15;//每格的寬高
 	
-	//Image offScreenImage = null;
+	Snake s = new Snake();
 	
 	public void launch() {//畫圖主method
 		this.setLocation(300,300);
 		this.setSize(COLS*BLOCK_SIZE,ROWS* BLOCK_SIZE);
 		
-		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.addWindowListener(new WindowAdapter() {
+		
+		
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//JFrame寫法
+		this.addWindowListener(new WindowAdapter() {//Frame寫法
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
@@ -50,6 +52,8 @@ public class Yard extends Frame {
 		}
 		
 		g.setColor(c);
+		
+		s.draw(g);//畫蛇
 	}
 
 }
