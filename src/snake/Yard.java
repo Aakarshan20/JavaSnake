@@ -2,17 +2,26 @@ package snake;
 import java.awt.Color;
 //貪食蛇的地圖(後院)
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 
 public class Yard extends Frame {
 	
+
+
 	public static final int ROWS =  50;//橫的格子
 	public static final int COLS = 50;//縱的格子
 	public static final int BLOCK_SIZE = 15;//每格的寬高
 	
 	Snake s = new Snake();
+	
+	Image offScreenImage = null;
 	
 	public void launch() {//畫圖主method
 		this.setLocation(300,300);
@@ -27,6 +36,9 @@ public class Yard extends Frame {
 			}
 		});
 		this.setVisible(true);
+		
+		new Thread(new PaintThread()).start();//調用thread並啟動
+		this.addKeyListener(new KeyMonitor());
 	}
 
 	
@@ -55,5 +67,44 @@ public class Yard extends Frame {
 		
 		s.draw(g);//畫蛇
 	}
+	
+	@Override
+	public void update(Graphics g) {//覆寫update方法 判斷如果圖是一樣的就不repaint
+		if(offScreenImage == null) {
+			offScreenImage = this.createImage(COLS*BLOCK_SIZE,ROWS* BLOCK_SIZE);
+		}
+		Graphics gOff = offScreenImage.getGraphics();
+		paint(gOff);
+		g.drawImage(offScreenImage, 0,0, null);
+	}
+	
+	//讓蛇移動
+	//建立thread類
+	private class PaintThread implements Runnable{
+
+		@Override
+		public void run() {
+			while(true) {
+				repaint();//重繪
+				try {
+					Thread.sleep(50);//50ms
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	//監聽鍵盤
+	private class KeyMonitor extends KeyAdapter{
+		
+		public void keyPressed(KeyEvent e) {
+			s.keyPressed(e);
+		}
+
+
+	}
+	
 
 }
