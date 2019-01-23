@@ -11,12 +11,14 @@ public class Snake {
     Node head = null;
     Node tail = null;
     int size = 0;
-    Node n = new Node(20, 30, Dir.L);
-     
-    public  Snake() {
+    Node n = new Node(20, 25, Dir.L);
+    Yard y = null;
+    
+    public  Snake(Yard y) {
         head = n;
         tail = n;
         size = 1;
+        this.y = y;
     }
      
     public class Node {
@@ -111,9 +113,17 @@ public class Snake {
  
         addToHead();
         deleteFromTail();
+        checkDead();
     }
  
-    private void deleteFromTail() {
+    private void checkDead() {//檢查蛇死了沒
+    	
+		if(head.row <2 || head.col < 0 || head.row > Yard.ROWS-2 || head.col > Yard.COLS-2) {
+			y.stop();
+		}
+	}
+
+	private void deleteFromTail() {
         if(size ==0) return;
         tail = tail.prev;
         tail.next = null;
@@ -135,15 +145,19 @@ public class Snake {
         int key = e.getKeyCode();
         switch(key) {
         case  KeyEvent.VK_LEFT:
+        	if(head.dir != Dir.R)
             head.dir = Dir.L;
             break;
         case  KeyEvent.VK_UP:
+        	if(head.dir != Dir.D)
             head.dir = Dir.U;
             break;
         case  KeyEvent.VK_RIGHT:
+        	if(head.dir != Dir.L)
             head.dir = Dir.R;
             break;
         case  KeyEvent.VK_DOWN:
+        	if(head.dir != Dir.U)
             head.dir = Dir.D;
             break;
         }

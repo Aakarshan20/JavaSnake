@@ -28,6 +28,8 @@ public class Egg {
 	int h = Yard.BLOCK_SIZE;
 	private static Random r = new Random();
 	
+	private Color color = Color.GREEN;
+	
 	public Egg(int row, int col) {
 		this.row = row;
 		this.col = col;
@@ -35,15 +37,15 @@ public class Egg {
 	
 	public Egg() {
 		//隨機找一行 找一列 讓他出現在位置上
-		this(	r.nextInt(Yard.ROWS-3)+3, //避免出現在frame的標題列裡面
-				r.nextInt(Yard.COLS));
+		this(	r.nextInt(Yard.ROWS-3)+2, //避免出現在frame的標題列裡面
+				r.nextInt(Yard.COLS-3)+2);
 	}
 	
 	
 	public void reAppear() {//重新出現
 		//從Yard.ROWS中隨機取一個int
-		this.row = r.nextInt(Yard.ROWS-3)+3;
-		this.col = r.nextInt(Yard.COLS-3);
+		this.row = r.nextInt(Yard.ROWS-3)+2;
+		this.col = r.nextInt(Yard.COLS-3)+2;
 	}
 	
 	//蛋的碰撞區
@@ -53,9 +55,11 @@ public class Egg {
 	
 	public void draw(Graphics g) {
 		 Color c = g.getColor();
-         g.setColor(Color.GREEN);
+         g.setColor(color);
          g.fillOval(Yard.BLOCK_SIZE * col, Yard.BLOCK_SIZE * row, w, h);
          g.setColor(c);
+         if(color == Color.GREEN) color = Color.RED;
+         else color= Color.GREEN;
 	}
 	
 }
