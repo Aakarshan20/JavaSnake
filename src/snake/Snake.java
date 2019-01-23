@@ -2,6 +2,7 @@ package snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
  
  
@@ -118,6 +119,18 @@ public class Snake {
         tail.next = null;
     }
  
+    public void eat(Egg e) {//吃蛋
+    	if(this.getRect().intersects(e.getRect())) {//如果碰到
+    		//讓蛋出現在新的位置上
+    		e.reAppear();
+    		this.addToHead();
+    	}
+    }
+    
+    private Rectangle getRect() {//偵測碰撞用(取出頭部的rectangle)
+    	return new Rectangle(Yard.BLOCK_SIZE * head.col, Yard.BLOCK_SIZE * head.row, head.w, head.h);
+    }
+    
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch(key) {

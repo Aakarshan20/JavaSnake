@@ -19,6 +19,7 @@ public class Yard extends Frame {
   private boolean gameOver = false;
    
   Snake s = new Snake();
+  Egg e = new Egg();
    
   Image offScreenImage = null;
    
@@ -57,9 +58,9 @@ public class Yard extends Frame {
           g.drawLine(BLOCK_SIZE * i, 0, BLOCK_SIZE * i, BLOCK_SIZE * ROWS);
       }
       g.setColor(c);
-       
-      s.draw(g);
-       
+      e.draw(g);//畫蛋
+      s.draw(g);//畫蛇
+      s.eat(e);//吃蛋
   }
    
 
@@ -78,7 +79,7 @@ public class Yard extends Frame {
           while(true) {
               repaint();
               try {
-                  Thread.sleep(50);
+                  Thread.sleep(100);
               } catch (InterruptedException e) {
                   e.printStackTrace();
               }
