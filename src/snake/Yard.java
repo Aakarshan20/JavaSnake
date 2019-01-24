@@ -1,6 +1,7 @@
 package snake;
 //Yard.java 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,9 +18,21 @@ public class Yard extends Frame {
   public static final int BLOCK_SIZE = 15;
    
   private boolean flag = true;
+  
+  private int score = 0;
    
+  public int getScore() {
+	return score;
+	}
+	
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+
   Snake s = new Snake(this);
   Egg e = new Egg();
+  
    
   Image offScreenImage = null;
    
@@ -61,11 +74,23 @@ public class Yard extends Frame {
       for(int i=1; i<COLS; i++) {
           g.drawLine(BLOCK_SIZE * i, 0, BLOCK_SIZE * i, BLOCK_SIZE * ROWS);
       }
+      
+      //畫分數
+      g.setColor(Color.YELLOW);
+      g.drawString("score: "+score, 10, 60);
+      //if(flag == false) {//如果掛掉
+    	  g.setFont(new Font("Verdana", Font.BOLD | Font.HANGING_BASELINE, 50));
+    	  g.drawString("geme over", 10, 80);
+      //}
       g.setColor(c);
       e.draw(g);//畫蛋
       s.draw(g);//畫蛇
       s.eat(e);//吃蛋
   }
+      
+  
+      
+     
    
 
   public void update(Graphics g) {

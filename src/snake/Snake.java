@@ -121,6 +121,13 @@ public class Snake {
 		if(head.row <2 || head.col < 0 || head.row > Yard.ROWS-2 || head.col > Yard.COLS-2) {
 			y.stop();
 		}
+		
+		for(Node n = head.next; n!= null; n= n.next) {//偵測蛇與身體的碰撞
+			if(head.row == n.row && head.col == n.col) {
+				y.stop();
+			}
+		}
+		
 	}
 
 	private void deleteFromTail() {
@@ -134,6 +141,8 @@ public class Snake {
     		//讓蛋出現在新的位置上
     		e.reAppear();
     		this.addToHead();
+    		
+    		y.setScore(y.getScore()+5);
     	}
     }
     
