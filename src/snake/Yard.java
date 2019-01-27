@@ -17,7 +17,10 @@ public class Yard extends Frame {
   public static final int COLS = 30;
   public static final int BLOCK_SIZE = 15;
    
-  private boolean flag = true;
+  //private boolean flag = true;
+  
+  PaintThread paintThread = new PaintThread();
+  private boolean gameover = false;
   
   private int score = 0;
    
@@ -26,6 +29,9 @@ public class Yard extends Frame {
 	}
 	
 	
+
+
+
 	public void setScore(int score) {
 		this.score = score;
 	}
@@ -48,8 +54,10 @@ public class Yard extends Frame {
       });           
       this.setVisible(true);
        
-      new Thread(new PaintThread()).start();
-      addKeyListener(new KeyMonitor()); 
+      //new Thread(new PaintThread()).start();
+      this.addKeyListener(new KeyMonitor());
+      
+      new Thread(paintThread).start();
   }
    
    
@@ -60,7 +68,8 @@ public class Yard extends Frame {
   }
   
   public void stop() {
-	 flag = false; 
+	 //gameover = false; 
+	  gameover = true;
   }
    
   public void paint(Graphics g) {
@@ -78,10 +87,12 @@ public class Yard extends Frame {
       //畫分數
       g.setColor(Color.YELLOW);
       g.drawString("score: "+score, 10, 60);
-      //if(flag == false) {//如果掛掉
-    	  g.setFont(new Font("Verdana", Font.BOLD | Font.HANGING_BASELINE, 50));
-    	  g.drawString("geme over", 10, 80);
-      //}
+      if(gameover) {//如果掛掉
+    	  //g.setFont(new Font("Verdana", Font.BOLD | Font.HANGING_BASELINE, 50));
+          g.setFont(new Font("Verdana", Font.BOLD, 50));
+    	  g.drawString("geme over", 60, 180);
+    	  paintThread.gameOver();
+      }
       g.setColor(c);
       e.draw(g);//畫蛋
       s.draw(g);//畫蛇
@@ -103,9 +114,9 @@ public class Yard extends Frame {
   }
    
   private class PaintThread implements Runnable{
-
+	  private boolean running = true;
       public void run() {
-          while(flag) {
+          while(running) {
               repaint();
               try {
                   Thread.sleep(100);
@@ -113,7 +124,10 @@ public class Yard extends Frame {
                   e.printStackTrace();
               }
           }
-           
+      }
+      
+      public void gameOver() {
+    	  running = false;
       }
        
   }

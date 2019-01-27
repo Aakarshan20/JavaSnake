@@ -118,7 +118,7 @@ public class Snake {
  
     private void checkDead() {//檢查蛇死了沒
     	
-		if(head.row <2 || head.col < 0 || head.row > Yard.ROWS-2 || head.col > Yard.COLS-2) {
+		if(head.row <2 || head.col < 0 || head.row > Yard.ROWS-2 || head.col > Yard.COLS-1) {
 			y.stop();
 		}
 		
